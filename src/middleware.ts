@@ -73,18 +73,6 @@ function getClientIp(request: NextRequest): string {
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // ── 0. Old URL Redirects ──────────────────────────────────────────────
-  // Redirect old /advertise/track/[token] to new dashboard login
-  if (pathname.startsWith("/advertise/track/")) {
-    const token = pathname.split("/advertise/track/")[1];
-    if (token) {
-      const url = request.nextUrl.clone();
-      url.pathname = "/ads/login";
-      url.searchParams.set("redirect", `/ads/dashboard`);
-      return NextResponse.redirect(url);
-    }
-  }
-
   // ── 1. Rate Limit ────────────────────────────────────────────────────
   const ip = getClientIp(request);
   const { limit, window, group } = getLimitForPath(pathname);

@@ -4770,7 +4770,7 @@ function HomeContent() {
                 Fly Again
               </button>
               <Link
-                href="/leaderboard?mode=game"
+                href="/leaderboard?mode=game&tab=flight"
                 onClick={() => { setShowFlyResults(null); clearTimeout(flyResultsTimerRef.current); }}
                 className="btn-press border-2 border-border px-5 py-2 text-[10px] transition-colors hover:border-border-light"
                 style={{ color: theme.accent }}
