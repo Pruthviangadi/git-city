@@ -112,7 +112,58 @@ function createGlassTex(
   return tex;
 }
 
-// ─── Avocado logo ───────────────────────────────────────
+// ─── AbacatePay SVG logo path data ──────────────────────
+const ABACATE_SVG_PATHS = [
+  "M1529.59 1226.27C1538.38 1126.66 1511.47 1030.21 1585.05 959.587L1630.63 915.849C1692.87 855.974 1727.82 774.854 1727.82 690.281C1727.82 605.707 1692.87 524.588 1630.63 464.715L1528.49 366.689L1454.9 437.31C1373.09 439.418 1291.82 470.512 1229.22 530.593L1217.68 541.133C1144.23 611.633 1047.17 654.94 943.674 663.402C806.388 674.469 677.895 731.913 580.151 825.728C502.721 899.921 449.057 993.852 425.506 1096.41C401.956 1198.96 409.506 1305.84 447.262 1404.4L409.922 1440.23L549.949 1574.63C603.189 1625.76 666.407 1666.33 735.991 1694.01C805.57 1721.68 880.154 1735.93 955.477 1735.93C1030.8 1735.93 1105.38 1721.68 1174.96 1694.01C1244.55 1666.33 1307.77 1625.76 1361.01 1574.63C1458.2 1481.34 1518.05 1358.02 1529.59 1226.27Z",
+  "M1293.52 344.455C1352.24 344.499 1409.63 361.955 1458.44 394.618C1507.25 427.283 1545.29 473.689 1567.77 527.978C1590.24 582.266 1596.13 642.001 1584.7 699.641C1573.26 757.28 1545.02 810.233 1503.53 851.814L1493.15 862.213C1427.44 927.909 1387.14 1014.78 1379.39 1107.41C1368.94 1230.2 1315.48 1345.34 1228.44 1432.51C1180.89 1480.27 1124.38 1518.15 1062.15 1543.98C999.921 1569.8 933.213 1583.08 865.846 1583.03C734.587 1583.03 603.33 1532.68 503.247 1432.51C455.652 1384.9 417.896 1328.38 392.137 1266.17C366.377 1203.95 353.119 1137.26 353.119 1069.92C353.119 1002.57 366.377 935.893 392.137 873.676C417.896 811.459 455.652 754.931 503.247 707.323C590.299 620.145 705.388 566.627 828.105 556.266C920.534 548.604 1007.49 508.102 1073.12 442.424L1083.51 432.025C1110.96 404.209 1143.66 382.14 1179.72 367.105C1215.77 352.07 1254.46 344.371 1293.52 344.455ZM1293.52 264C1192.89 264 1097.73 303.407 1026.63 374.557L1016.79 384.957C964.835 436.952 895.375 469.243 821.545 475.81C679.897 487.852 546.999 549.698 446.916 649.858C391.686 704.889 347.885 770.307 318.036 842.356C288.187 914.405 272.882 991.654 273.001 1069.65C273.001 1228.37 334.801 1377.23 446.916 1489.43C559.031 1601.64 707.789 1663.48 866.389 1663.48C1024.99 1663.48 1173.75 1601.64 1285.87 1489.43C1385.95 1389.28 1448.29 1255.74 1460.33 1114.52C1466.44 1040.67 1498.62 971.404 1551.12 919.134L1561.51 908.734C1596.62 873.712 1624.46 832.083 1643.41 786.239C1662.37 740.4 1672.08 691.258 1671.98 641.645C1671.98 540.941 1632.6 445.709 1561.51 374.557C1490.34 303.626 1393.96 263.862 1293.52 264Z",
+  "M1493.71 862.218L1504.09 851.818C1531.68 824.224 1553.56 791.455 1568.49 755.394C1583.42 719.333 1591.1 680.682 1591.1 641.65C1591.1 602.617 1583.42 563.968 1568.49 527.907C1553.56 491.845 1531.68 459.081 1504.09 431.483C1476.52 403.879 1443.78 381.983 1407.74 367.044C1371.71 352.104 1333.09 344.415 1294.08 344.415C1255.08 344.415 1216.46 352.104 1180.42 367.044C1144.39 381.983 1111.65 403.879 1084.07 431.483L1073.69 441.882C1008.03 507.633 921.223 547.968 828.674 555.723C705.951 566.085 590.862 619.6 503.81 706.784C456.215 754.392 418.459 810.92 392.7 873.131C366.94 935.348 353.682 1002.03 353.682 1069.38C353.682 1136.72 366.94 1203.41 392.7 1265.62C418.459 1327.84 456.215 1384.37 503.81 1431.97C551.383 1479.61 607.868 1517.39 670.036 1543.16C732.205 1568.95 798.838 1582.21 866.132 1582.21C933.426 1582.21 1000.06 1568.95 1062.23 1543.16C1124.4 1517.39 1180.88 1479.61 1228.45 1431.97C1315.57 1344.86 1369.05 1229.68 1379.4 1106.87C1387.6 1014.92 1428.08 927.896 1493.71 862.218Z",
+  "M890.445 1286.93C953.689 1286.93 1014.34 1261.79 1059.06 1217.04C1103.77 1172.29 1128.9 1111.59 1128.9 1048.31C1128.9 985.013 1103.77 924.318 1059.06 879.566C1014.34 834.815 953.689 809.673 890.445 809.673C827.206 809.673 766.555 834.815 721.837 879.566C677.118 924.318 651.996 985.013 651.996 1048.31C651.996 1111.59 677.118 1172.29 721.837 1217.04C766.555 1261.79 827.206 1286.93 890.445 1286.93Z",
+];
+const ABACATE_SVG_FILLS = ["#114123", "#337D63", "#99FF78", "#114123"];
+
+function createLogoTexture(accent: string, pixelSize: number): THREE.CanvasTexture {
+  // Render SVG at high-res first, then downscale to pixelSize for pixel-art look
+  const hiRes = 512;
+  const hiCanvas = document.createElement("canvas");
+  hiCanvas.width = hiRes; hiCanvas.height = hiRes;
+  const hiCtx = hiCanvas.getContext("2d")!;
+
+  hiCtx.clearRect(0, 0, hiRes, hiRes);
+
+  const scale = hiRes / 2000;
+  hiCtx.save();
+  hiCtx.scale(scale, scale);
+
+  // Monochrome using accent color — all layers same hue, different brightness
+  // Layers: 0=dark bg, 1=mid outline, 2=bright fill, 3=seed (dark circle)
+  for (let i = 0; i < ABACATE_SVG_PATHS.length; i++) {
+    if (i === 3) {
+      // Seed: draw dark so it contrasts against bright fill
+      hiCtx.fillStyle = "#000";
+      hiCtx.globalAlpha = 0.7;
+    } else {
+      hiCtx.fillStyle = accent;
+      hiCtx.globalAlpha = [0.35, 0.65, 1.0][i];
+    }
+    const p = new Path2D(ABACATE_SVG_PATHS[i]);
+    hiCtx.fill(p);
+  }
+  hiCtx.restore();
+
+  // Downscale to tiny pixel grid for blocky pixel-art effect
+  const canvas = document.createElement("canvas");
+  canvas.width = pixelSize; canvas.height = pixelSize;
+  const ctx = canvas.getContext("2d")!;
+  ctx.imageSmoothingEnabled = false;
+  ctx.drawImage(hiCanvas, 0, 0, pixelSize, pixelSize);
+
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.magFilter = THREE.NearestFilter;
+  tex.minFilter = THREE.NearestFilter;
+  return tex;
+}
+
+// ─── Rotating 3D logo for antenna top ───────────────────
 function createAvocadoLogo(accent: string): THREE.Group {
   const g = new THREE.Group();
   const mat = new THREE.MeshStandardMaterial({
@@ -185,6 +236,8 @@ export default function AbacatePayBuilding({
 }: SponsorBuildingProps) {
   const logoRef = useRef<THREE.Group>(null);
   const beaconRef = useRef<THREE.Mesh>(null);
+  const logoLightFront = useRef<THREE.PointLight>(null);
+  const logoLightBack = useRef<THREE.PointLight>(null);
 
   const shellColor = useMemo(() => {
     const c = new THREE.Color(themeFace);
@@ -199,17 +252,45 @@ export default function AbacatePayBuilding({
 
   const txCol = Math.floor((MIN_COLS - TXT_W) / 2);
 
-  // Main slab textures — text on front/back
-  const mainFront = useMemo(() =>
-    createGlassTex(MIN_COLS, 20, 51, themeWindowLit, windowOff, themeFace, themeAccent, TEXT_BM, txCol, 1),
+  // Section heights: S1 (logo/top) + S2 (text/mid) + S3 (base)
+  const S1H = 90, S2H = 100, S3H = 110;
+  const S3_Y = S3H / 2 + 4;                    // base
+  const S2_Y = S3H + 4 + S2H / 2;              // text section
+  const S1_Y = S3H + S2H + 4 + S1H / 2;        // logo section
+
+  // S2 textures — text centered vertically (row 3 of 8 rows)
+  const s2Rows = 8;
+  const s2TxRow = Math.floor((s2Rows - TEXT_BM.length) / 2);
+  const s2Front = useMemo(() =>
+    createGlassTex(MIN_COLS, s2Rows, 51, themeWindowLit, windowOff, themeFace, themeAccent, TEXT_BM, txCol, s2TxRow),
     [themeWindowLit, windowOff, themeFace, themeAccent],
   );
-  const mainFrontB = useMemo(() =>
-    createGlassTex(MIN_COLS, 20, 107, themeWindowLit, windowOff, themeFace, themeAccent, TEXT_BM, txCol, 1),
+  const s2FrontB = useMemo(() =>
+    createGlassTex(MIN_COLS, s2Rows, 107, themeWindowLit, windowOff, themeFace, themeAccent, TEXT_BM, txCol, s2TxRow),
     [themeWindowLit, windowOff, themeFace, themeAccent],
   );
-  const mainSide = useMemo(() =>
-    createGlassTex(9, 20, 82, themeWindowLit, windowOff, themeFace),
+  const s2Side = useMemo(() =>
+    createGlassTex(5, s2Rows, 88, themeWindowLit, windowOff, themeFace),
+    [themeWindowLit, windowOff, themeFace],
+  );
+
+  // S1 textures — plain windows (logo is a separate plane)
+  const s1Front = useMemo(() =>
+    createGlassTex(MIN_COLS, 6, 60, themeWindowLit, windowOff, themeFace),
+    [themeWindowLit, windowOff, themeFace],
+  );
+  const s1Side = useMemo(() =>
+    createGlassTex(5, 6, 71, themeWindowLit, windowOff, themeFace),
+    [themeWindowLit, windowOff, themeFace],
+  );
+
+  // S3 textures — plain base windows
+  const s3Front = useMemo(() =>
+    createGlassTex(MIN_COLS, 8, 82, themeWindowLit, windowOff, themeFace),
+    [themeWindowLit, windowOff, themeFace],
+  );
+  const s3Side = useMemo(() =>
+    createGlassTex(5, 8, 93, themeWindowLit, windowOff, themeFace),
     [themeWindowLit, windowOff, themeFace],
   );
 
@@ -233,7 +314,9 @@ export default function AbacatePayBuilding({
     [themeWindowLit, windowOff, themeFace],
   );
 
-  const allTex = [mainFront, mainFrontB, mainSide, towerFront, towerSide, crownF, crownS];
+  const logoTex = useMemo(() => createLogoTexture(themeAccent, 64), [themeAccent]);
+
+  const allTex = [s1Front, s1Side, s2Front, s2FrontB, s2Side, s3Front, s3Side, towerFront, towerSide, crownF, crownS, logoTex];
   useEffect(() => () => { for (const t of allTex) t.dispose(); }, allTex);
 
   const logo3D = useMemo(() => createAvocadoLogo(themeAccent), [themeAccent]);
@@ -255,6 +338,10 @@ export default function AbacatePayBuilding({
       (beaconRef.current.material as THREE.MeshStandardMaterial).emissiveIntensity =
         2 + Math.sin(t * 1.5) * 0.8;
     }
+    // Pulse logo lights like E.Arcade
+    const logoI = 50 + Math.sin(t * 1.2) * 25;
+    if (logoLightFront.current) logoLightFront.current.intensity = logoI;
+    if (logoLightBack.current) logoLightBack.current.intensity = logoI;
   });
 
   const emC = themeWindowLit[0] ?? "#fff";
@@ -275,23 +362,84 @@ export default function AbacatePayBuilding({
         <meshStandardMaterial color={themeAccent} emissive={themeAccent} emissiveIntensity={0.5} toneMapped={false} />
       </mesh>
 
-      {/* ── Main slab (wide, shorter) ── */}
+      {/* ── Section 3: Base ── */}
       <BoxSection
-        w={MW} h={MH} d={MD} y={MH / 2 + 4}
-        shellMat={shellMat} glassFront={mainFront} glassSide={mainSide}
+        w={MW} h={S3H} d={MD} y={S3_Y}
+        shellMat={shellMat} glassFront={s3Front} glassSide={s3Side}
         emColor={emC} accent={themeAccent}
       />
 
-      {/* Main slab back face with text too */}
-      <GlassFacade tex={mainFrontB} w={MW} h={MH} pos={[0, MH / 2 + 4, -MD / 2 - 0.3]} rotY={Math.PI} emColor={emC} />
+      {/* Band between S3 and S2 */}
+      <mesh position={[0, S3H + 4, 0]}>
+        <boxGeometry args={[MW + 2, 1.5, MD + 2]} />
+        <meshStandardMaterial color={themeAccent} emissive={themeAccent} emissiveIntensity={0.8} toneMapped={false} />
+      </mesh>
 
-      {/* Main slab top trim */}
+      {/* ── Section 2: Text "ABACATE" ── */}
+      <BoxSection
+        w={MW} h={S2H} d={MD} y={S2_Y}
+        shellMat={shellMat} glassFront={s2Front} glassSide={s2Side}
+        emColor={emC} accent={themeAccent}
+      />
+      {/* Back face with text too */}
+      <GlassFacade tex={s2FrontB} w={MW} h={S2H} pos={[0, S2_Y, -MD / 2 - 0.3]} rotY={Math.PI} emColor={emC} />
+
+      {/* Text glow */}
+      <pointLight position={[0, S2_Y, MD / 2 + 20]} color={themeAccent} intensity={30} distance={80} decay={2} />
+      <pointLight position={[0, S2_Y, -MD / 2 - 20]} color={themeAccent} intensity={30} distance={80} decay={2} />
+
+      {/* Band between S2 and S1 */}
+      <mesh position={[0, S3H + S2H + 4, 0]}>
+        <boxGeometry args={[MW + 2, 1.5, MD + 2]} />
+        <meshStandardMaterial color={themeAccent} emissive={themeAccent} emissiveIntensity={0.8} toneMapped={false} />
+      </mesh>
+
+      {/* ── Section 1: Logo ── */}
+      <BoxSection
+        w={MW} h={S1H} d={MD} y={S1_Y}
+        shellMat={shellMat} glassFront={s1Front} glassSide={s1Side}
+        emColor={emC} accent={themeAccent}
+      />
+
+      {/* AbacatePay logo on S1 facade */}
+      <group>
+        <mesh position={[0, S1_Y, MD / 2 + 0.5]} rotation={[0, 0, 0]}>
+          <planeGeometry args={[55, 55]} />
+          <meshStandardMaterial
+            map={logoTex}
+            emissive={themeAccent}
+            emissiveMap={logoTex}
+            emissiveIntensity={2.5}
+            toneMapped={false}
+            transparent
+            depthWrite={false}
+          />
+        </mesh>
+        <pointLight ref={logoLightFront} position={[0, S1_Y, MD / 2 + 15]} color={themeAccent} intensity={50} distance={120} decay={2} />
+      </group>
+      <group>
+        <mesh position={[0, S1_Y, -MD / 2 - 0.5]} rotation={[0, Math.PI, 0]}>
+          <planeGeometry args={[55, 55]} />
+          <meshStandardMaterial
+            map={logoTex}
+            emissive={themeAccent}
+            emissiveMap={logoTex}
+            emissiveIntensity={2.5}
+            toneMapped={false}
+            transparent
+            depthWrite={false}
+          />
+        </mesh>
+        <pointLight ref={logoLightBack} position={[0, S1_Y, -MD / 2 - 15]} color={themeAccent} intensity={50} distance={120} decay={2} />
+      </group>
+
+      {/* Top trim */}
       <mesh position={[0, MH + 4, 0]}>
         <boxGeometry args={[MW + 4, 1.2, MD + 4]} />
         <meshStandardMaterial color={themeAccent} emissive={themeAccent} emissiveIntensity={1} toneMapped={false} />
       </mesh>
 
-      {/* Main slab rooftop pad */}
+      {/* Rooftop pad */}
       <mesh position={[0, MH + 5.5, 0]}>
         <boxGeometry args={[MW - 8, 2, MD - 8]} />
         <primitive object={shellMatLight} attach="material" />
@@ -300,16 +448,6 @@ export default function AbacatePayBuilding({
         <boxGeometry args={[MW - 6, 0.6, MD - 6]} />
         <meshStandardMaterial color={themeAccent} emissive={themeAccent} emissiveIntensity={0.6} toneMapped={false} />
       </mesh>
-
-      {/* Accent band at 50% of main slab */}
-      <mesh position={[0, MH * 0.5 + 4, 0]}>
-        <boxGeometry args={[MW + 2, 1.5, MD + 2]} />
-        <meshStandardMaterial color={themeAccent} emissive={themeAccent} emissiveIntensity={0.8} toneMapped={false} />
-      </mesh>
-
-      {/* Text glow (main slab) */}
-      <pointLight position={[0, MH * 0.72, MD / 2 + 20]} color={themeAccent} intensity={30} distance={80} decay={2} />
-      <pointLight position={[0, MH * 0.72, -MD / 2 - 20]} color={themeAccent} intensity={30} distance={80} decay={2} />
 
       {/* ── Side tower (narrow, taller) ── */}
       <group position={[T_OFF, 0, 0]}>
